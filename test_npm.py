@@ -1,4 +1,4 @@
-from core.checkers.npm_checker import NPMChecker
+from core.npm_checker import NPMChecker
 
 checker = NPMChecker()
 
