@@ -6,8 +6,5 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "requests>=2.32.5",
-<<<<<<< HEAD
     "typer>=0.10.0",
-=======
->>>>>>> c8d5dac71b8fc7815940574e3486d39da0874f4d
 ]
