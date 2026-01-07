@@ -11,3 +11,6 @@ class CheckerBase(ABC):
     @abstractmethod
     def list_installed(self) -> List[str]:
         pass
+
+
+print(CheckerBase)

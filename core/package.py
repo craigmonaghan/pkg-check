@@ -4,10 +4,10 @@ from typing import Optional
 
 @dataclass
 class Package():
-    name: str
-    source: str
-    version: str
-    last_updated: datetime
+    name: Optional[str] = None
+    source: Optional[str] = None
+    version: Optional[str] = None
+    last_updated: Optional[datetime] = None
     
     maintainer: Optional[str] = None
     url: Optional[str] = None
