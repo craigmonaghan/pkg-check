@@ -1,9 +1,10 @@
 from typing import List
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from core.checker_base import CheckerBase
 from core.package import Package
 import json
+
 class PyPiChecker(CheckerBase):
     def check_package(self, package_name: str) -> Package:
         try:
@@ -15,14 +16,12 @@ class PyPiChecker(CheckerBase):
             response.raise_for_status()
             self.data = response.json()
             
-            
             version = self.data['info']['version']
-            
             releases = self.data.get('releases', {})
-            #Should probably rewrite as it just assumes its the latest release time
+            
+            #Possibly rewrite as it just assumes its the latest release time
             date_str = releases[version][0].get('upload_time_iso_8601')
             last_updated = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
-            
             
             maintainers = self.data.get('info')
             maintainer = maintainers['author'] if maintainers else None
@@ -32,7 +31,8 @@ class PyPiChecker(CheckerBase):
                 source="PyPi",
                 version=version,
                 last_updated=last_updated,
-                maintainer=maintainer
+                maintainer=maintainer,
+                
             ) 
             
             
