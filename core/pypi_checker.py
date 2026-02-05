@@ -25,6 +25,9 @@ class PyPiChecker(CheckerBase):
             
             maintainers = self.data.get('info')
             maintainer = maintainers['author'] if maintainers else None
+            
+            pypi_url = self.data.get('info')
+            package_url = pypi_url['project_url'] if pypi_url else None 
                
             return Package(
                 name=package_name,
@@ -32,7 +35,7 @@ class PyPiChecker(CheckerBase):
                 version=version,
                 last_updated=last_updated,
                 maintainer=maintainer,
-                
+                url=package_url
             ) 
             
             

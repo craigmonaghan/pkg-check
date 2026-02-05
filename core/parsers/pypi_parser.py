@@ -7,7 +7,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 def pypi_parser(package_name: str, output_file):    
     checker = PyPiChecker()
-    package = checker.check_package(package_name)
     data = checker.get_data(package_name)
 
     if output_file:
