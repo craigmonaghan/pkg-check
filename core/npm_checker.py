@@ -13,16 +13,16 @@ class NPMChecker(CheckerBase):
                 raise Exception(f"Package '{package_name}' not found on NPM")
             
             response.raise_for_status()
-            data = response.json()
+            self.data = response.json()
             #?
             #print(json.dumps(data, indent=2))
             
-            date_str = data['time']['modified']
+            date_str = self.data['time']['modified']
             last_updated = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
             
-            version = data['dist-tags']['latest']
+            version = self.data['dist-tags']['latest']
             
-            maintainers = data.get('maintainers', [])
+            maintainers = self.data.get('maintainers', [])
             maintainer = maintainers[0]['name'] if maintainers else None
             
             return Package(
@@ -44,6 +44,12 @@ class NPMChecker(CheckerBase):
 
         except KeyError as e:
             raise Exception(f"Unexpected response format from NPM for '{package_name}'")
+    
+    def get_data(self, requests):
+        requests = self.data
+        if requests is not None:
+            return requests
+    
     
     def list_installed(self) -> List[str]:
         return []
