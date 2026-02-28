@@ -13,4 +13,3 @@ class CheckerBase(ABC):
         pass
 
 
-print(CheckerBase)

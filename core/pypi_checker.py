@@ -1,12 +1,14 @@
 from typing import List
 import requests
-from datetime import datetime, timezone
+from datetime import datetime
 from core.checker_base import CheckerBase
 from core.package import Package
-import json
+from parsers import exporter
+
 
 class PyPiChecker(CheckerBase):
     def check_package(self, package_name: str) -> Package:
+        self.package_name = package_name
         try:
             url = f"https://pypi.org/pypi/{package_name}/json"
             response = requests.get(url, timeout=10)
@@ -27,7 +29,8 @@ class PyPiChecker(CheckerBase):
             maintainer = maintainers['author'] if maintainers else None
             
             pypi_url = self.data.get('info')
-            package_url = pypi_url['project_url'] if pypi_url else None 
+            package_url = pypi_url['project_url'] if pypi_url else None
+            print(f"DEBUG: package_url = {package_url}")
                
             return Package(
                 name=package_name,
@@ -51,11 +54,14 @@ class PyPiChecker(CheckerBase):
         except KeyError as e:
             raise Exception(f"Unexpected response format from PyPi for '{package_name}'")
 
-    def get_data(self, requests):
-        requests = self.data
-        if requests is not None:
-            return requests
+    def get_data(self, request):
+        request = self.data
+        if request is not None:
+            return request
     
-    
+    def get_parserered(self, package_name):
+        package_name = package_name
+        return exporter.export(package_name, PyPiChecker(), None)
+
     def list_installed(self) -> List[str]:
         return []

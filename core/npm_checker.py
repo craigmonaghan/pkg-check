@@ -3,9 +3,11 @@ import requests
 from datetime import datetime
 from core.checker_base import CheckerBase
 from core.package import Package
-import json
+from parsers import exporter
+
 class NPMChecker(CheckerBase):
     def check_package(self, package_name: str) -> Package:
+        self.package_name = package_name
         try:
             url = f"https://registry.npmjs.org/{package_name}"
             response = requests.get(url, timeout=10)
@@ -14,8 +16,6 @@ class NPMChecker(CheckerBase):
             
             response.raise_for_status()
             self.data = response.json()
-            #?
-            #print(json.dumps(data, indent=2))
             
             date_str = self.data['time']['modified']
             last_updated = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
@@ -24,13 +24,16 @@ class NPMChecker(CheckerBase):
             
             maintainers = self.data.get('maintainers', [])
             maintainer = maintainers[0]['name'] if maintainers else None
-            
+
+            package_url = f"https://www.npmjs.com/package/{package_name}"
+            print(f"DEBUG: package_url = {package_url}")
             return Package(
                 name=package_name,
                 source="npm",
                 version=version,
                 last_updated=last_updated,
-                maintainer=maintainer
+                maintainer=maintainer,
+                url=package_url
             )
             
         except requests.exceptions.HTTPError as e:
@@ -45,11 +48,14 @@ class NPMChecker(CheckerBase):
         except KeyError as e:
             raise Exception(f"Unexpected response format from NPM for '{package_name}'")
     
-    def get_data(self, requests):
-        requests = self.data
-        if requests is not None:
-            return requests
+    def get_data(self, request):
+        request = self.data
+        if request is not None:
+            return request
     
+    def get_parserered(self, package_name):
+        package_name = package_name
+        return exporter.export(package_name, NPMChecker(), None)
     
     def list_installed(self) -> List[str]:
         return []
