@@ -30,7 +30,7 @@ class PyPiChecker(CheckerBase):
             
             pypi_url = self.data.get('info')
             package_url = pypi_url['project_url'] if pypi_url else None
-            print(f"DEBUG: package_url = {package_url}")
+
                
             return Package(
                 name=package_name,
@@ -54,13 +54,11 @@ class PyPiChecker(CheckerBase):
         except KeyError as e:
             raise Exception(f"Unexpected response format from PyPi for '{package_name}'")
 
-    def get_data(self, request):
-        request = self.data
-        if request is not None:
-            return request
+    def get_data(self, package_name):
+        if self.data is not None:
+            return self.data
     
-    def get_parserered(self, package_name):
-        package_name = package_name
+    def get_parse(self, package_name):
         return exporter.export(package_name, PyPiChecker(), None)
 
     def list_installed(self) -> List[str]:

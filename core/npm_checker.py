@@ -26,7 +26,7 @@ class NPMChecker(CheckerBase):
             maintainer = maintainers[0]['name'] if maintainers else None
 
             package_url = f"https://www.npmjs.com/package/{package_name}"
-            print(f"DEBUG: package_url = {package_url}")
+
             return Package(
                 name=package_name,
                 source="npm",
@@ -48,13 +48,11 @@ class NPMChecker(CheckerBase):
         except KeyError as e:
             raise Exception(f"Unexpected response format from NPM for '{package_name}'")
     
-    def get_data(self, request):
-        request = self.data
-        if request is not None:
-            return request
+    def get_data(self, package_name):
+        if self.data is not None:
+            return self.data
     
-    def get_parserered(self, package_name):
-        package_name = package_name
+    def get_parse(self, package_name):
         return exporter.export(package_name, NPMChecker(), None)
     
     def list_installed(self) -> List[str]:

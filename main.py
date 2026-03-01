@@ -17,7 +17,7 @@ def npm(package_name: str):
     console.print(f"Checking [cyan]{package_name}[/cyan] on NPM..")
     try:
         checker = NPMChecker()
-        pkg =checker.check_package(package_name)
+        pkg = checker.check_package(package_name)
         output = f"""[bold cyan]NPM Package Info[/bold cyan]
         
         Name: {pkg.name}
@@ -36,7 +36,7 @@ def pypi(package_name: str):
     console.print(f"Checking [cyan]{package_name}[/cyan] on PyPi..")
     try:
         checker = PyPiChecker()
-        pkg =checker.check_package(package_name)        
+        pkg = checker.check_package(package_name)        
         output = f"""[bold cyan]PyPi Package Info[/bold cyan]
         
         Name: {pkg.name}
@@ -55,7 +55,7 @@ def aur(package_name: str):
     console.print(f"Checking [cyan]{package_name}[/cyan] on the AUR..")
     try:
         checker = AURChecker()
-        pkg =checker.check_package(package_name)        
+        pkg = checker.check_package(package_name)        
         output = f"""[bold cyan]AUR Package Info[/bold cyan]
         
         Name: {pkg.name}
@@ -71,7 +71,7 @@ def aur(package_name: str):
 
 
 @app.command()
-def fetch(checker, package_name, output_file: Optional[str] = None):
+def fetch(checker, package_name: str, output_file: Optional[str] = None):
     console.print(f"writing response for [cyan]{package_name}[/cyan]")
     try:
         if checker == "pypi": 
