@@ -1,11 +1,23 @@
 [project]
-name = "unnamed"
+name = "pkg-check"
 version = "0.1.0"
-description = "Add your description here"
+description = "Multi-source package health checker for NPM, PyPI, and AUR"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "requests>=2.32.5",
     "typer>=0.10.0",
     "rich>=13.0.0",
+    "python-dateutil>=2.8.0",
 ]
+
+[project.scripts]
+pkg-check = "main:app"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["core", "parsers"]
+py-modules = ["main"]

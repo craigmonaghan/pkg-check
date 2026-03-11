@@ -21,7 +21,7 @@ class PyPiChecker(CheckerBase):
             version = self.data['info']['version']
             releases = self.data.get('releases', {})
             
-            #Possibly rewrite as it just assumes its the latest release time
+            #Possibly rewrite as it just assumes its the latest release time... i think
             date_str = releases[version][0].get('upload_time_iso_8601')
             last_updated = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
             
