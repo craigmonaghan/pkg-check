@@ -8,14 +8,14 @@
 ### Quick Install (with uv - recommended)
 
 ```bash
-git clone https://github.com/yourusername/pkg-check
+git clone https://github.com/craigmonaghan/pkg-check
 cd pkg-check
 uv pip install -e .
 ```
 
 ### Alternative Install (with pip)
 ```bash
-git clone https://github.com/yourusername/pkg-check
+git clone https://github.com/craigmonaghan/pkg-check
 cd pkg-check
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
